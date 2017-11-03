@@ -5,5 +5,5 @@ Here you will find all the source files for the Power Query Challenge:
 
 Source files:
 There are two source files:
-1. Excel file
+1. Excel file: https://github.com/ruthpozuelo/PQChallenge/blob/master/Talare2.xlsx
 2. Web: http://tdswe.se/sessioner/
