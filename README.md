@@ -14,7 +14,7 @@ Here I will add their contributions as I explain them on Youtube.
 CONTRIBUTION Nr2: Daniel Dion
 
 1. [Video Explanation](https://www.youtube.com/watch?v=TxkkWyt-n9U)
-2. Solution files:
+2. Solution files: [Solution 1](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Daniel%20Dion.pq)
 
 CONTRIBUTION Nr2: Emin Uzun
 
