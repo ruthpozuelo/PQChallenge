@@ -1,0 +1,30 @@
+let
+    Source = Text.Replace(Text.FromBinary(Web.Contents("http://tdswe.se/sessioner/")),"#(lf)",""),
+    I = Text.Replace(Source,"#(tab)",""),
+    // Split the html code by class h4 to get one session on each row
+    #"1 row per session" = Text.Split(I, "<h4 class=""mb-lg"">"),
+    #"Remove 1st row" = List.Skip(#"1 row per session",1),
+    #"Remove last rows" = List.RemoveLastN(#"Remove 1st row",1),
+    #"Convert to table" = Table.FromList(#"Remove last rows", Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+    S1 = Table.SplitColumn(#"Convert to table", "Column1", Splitter.SplitTextByEachDelimiter({"</h4>"}, QuoteStyle.None, false), {"Column1.1", "Column1.2"}),
+    S2 = Table.SplitColumn(S1, "Column1.2", Splitter.SplitTextByEachDelimiter({"</i>"}, QuoteStyle.None, false), {"Column1.2.1", "Column1.2.2"}),
+    S3 = Table.SplitColumn(S2, "Column1.2.2", Splitter.SplitTextByEachDelimiter({"</p><p>– "}, QuoteStyle.None, false), {"Column1.2.2.1", "Column1.2.2.2"}),
+    S4 = Table.SplitColumn(S3, "Column1.2.2.2", Splitter.SplitTextByEachDelimiter({"</p>"}, QuoteStyle.None, false), {"Column1.2.2.2.1", "Column1.2.2.2.2"}),
+    S5 = Table.SplitColumn(S4, "Column1.2.2.2.2", Splitter.SplitTextByEachDelimiter({"</div></div><p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.1", "Column1.2.2.2.2.2"}),
+    S6 = Table.SplitColumn(S5, "Column1.2.2.2.2.1", Splitter.SplitTextByEachDelimiter({"</i>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.1.1", "Column1.2.2.2.2.1.2"}),
+    #"Remove <p> from room" = Table.ReplaceValue(S6,"</p>","",Replacer.ReplaceText,{"Column1.2.2.2.2.1.2"}),
+    S7 = Table.SplitColumn(#"Remove <p> from room", "Column1.2.2.2.2.2", Splitter.SplitTextByEachDelimiter({"</p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.2.1", "Column1.2.2.2.2.2.2"}),
+    S8 = Table.SplitColumn(S7, "Column1.2.2.2.2.2.2", Splitter.SplitTextByDelimiter("<img src=""", QuoteStyle.None), {"Column1.2.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.2", "Column1.2.2.2.2.2.2.3", "Column1.2.2.2.2.2.2.4", "Column1.2.2.2.2.2.2.5"}),
+    S9 = Table.SplitColumn(S8, "Column1.2.2.2.2.2.2.2", Splitter.SplitTextByEachDelimiter({""" /></div><div class=""speaker-name"" data-mh=""miniature-speaker""><p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.2.2"}),
+    S10 = Table.SplitColumn(S9, "Column1.2.2.2.2.2.2.2.2", Splitter.SplitTextByEachDelimiter({"</p>"}, QuoteStyle.Csv, false), {"Column1.2.2.2.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.2.2.2"}),
+    S11 = Table.SplitColumn(S10, "Column1.2.2.2.2.2.2.3", Splitter.SplitTextByEachDelimiter({""" /></div><div class=""speaker-name"" data-mh=""miniature-speaker""><p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.2.2.3.1", "Column1.2.2.2.2.2.2.3.2"}),
+    S12 = Table.SplitColumn(S11, "Column1.2.2.2.2.2.2.3.2", Splitter.SplitTextByEachDelimiter({"</p>"}, QuoteStyle.Csv, false), {"Column1.2.2.2.2.2.2.3.2.1", "Column1.2.2.2.2.2.2.3.2.2"}),
+    S13 = Table.SplitColumn(S12, "Column1.2.2.2.2.2.2.4", Splitter.SplitTextByEachDelimiter({""" /></div><div class=""speaker-name"" data-mh=""miniature-speaker""><p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.2.2.4.1", "Column1.2.2.2.2.2.2.4.2"}),
+    S14 = Table.SplitColumn(S13, "Column1.2.2.2.2.2.2.4.2", Splitter.SplitTextByDelimiter("</p>", QuoteStyle.Csv), {"Column1.2.2.2.2.2.2.4.2.1", "Column1.2.2.2.2.2.2.4.2.2"}),
+    S15 = Table.SplitColumn(S14, "Column1.2.2.2.2.2.2.5", Splitter.SplitTextByEachDelimiter({""" /></div><div class=""speaker-name"" data-mh=""miniature-speaker""><p>"}, QuoteStyle.None, false), {"Column1.2.2.2.2.2.2.5.1", "Column1.2.2.2.2.2.2.5.2"}),
+    S16 = Table.SplitColumn(S15, "Column1.2.2.2.2.2.2.5.2", Splitter.SplitTextByDelimiter("</p>", QuoteStyle.Csv), {"Column1.2.2.2.2.2.2.5.2.1", "Column1.2.2.2.2.2.2.5.2.2"}),
+    #"Remove columns" = Table.SelectColumns(S16,{"Column1.1", "Column1.2.2.1", "Column1.2.2.2.1", "Column1.2.2.2.2.1.2", "Column1.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.2.1", "Column1.2.2.2.2.2.2.3.2.1", "Column1.2.2.2.2.2.2.3.1", "Column1.2.2.2.2.2.2.4.2.1", "Column1.2.2.2.2.2.2.4.1", "Column1.2.2.2.2.2.2.5.2.1", "Column1.2.2.2.2.2.2.5.1"}),
+    #"Rename columns" = Table.RenameColumns(#"Remove columns",{{"Column1.1", "SessionTitle"}, {"Column1.2.2.1", "StartDateTime"}, {"Column1.2.2.2.1", "EndTime"}, {"Column1.2.2.2.2.1.2", "Room"}, {"Column1.2.2.2.2.2.1", "Description"}, {"Column1.2.2.2.2.2.2.2.2.1", "Speaker1"}, {"Column1.2.2.2.2.2.2.2.1", "Speaker1Photo"}, {"Column1.2.2.2.2.2.2.3.2.1", "Speaker2"}, {"Column1.2.2.2.2.2.2.3.1", "Speaker2Photo"}, {"Column1.2.2.2.2.2.2.4.2.1", "Speaker3"}, {"Column1.2.2.2.2.2.2.4.1", "Speaker3Photo"}, {"Column1.2.2.2.2.2.2.5.2.1", "Speaker4"}, {"Column1.2.2.2.2.2.2.5.1", "Speaker4Photo"}}),
+    #"Change type" = Table.TransformColumnTypes(#"Rename columns",{{"SessionTitle", type text}, {"StartDateTime", type datetime}, {"EndTime", type time}, {"Room", type text}, {"Description", type text}, {"Speaker1", type text}, {"Speaker1Photo", type text}, {"Speaker2", type text}, {"Speaker2Photo", type text}, {"Speaker3", type text}, {"Speaker3Photo", type text}, {"Speaker4", type text}, {"Speaker4Photo", type text}})
+in
+    #"Change type"

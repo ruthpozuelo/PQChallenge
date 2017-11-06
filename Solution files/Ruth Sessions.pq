@@ -1,0 +1,42 @@
+let
+    Source = Excel.Workbook(File.Contents(FilePath), null, true),
+    Sheet1_Sheet = Source{[Item="Data Source",Kind="Sheet"]}[Data],
+     #"Changed Type" = Table.TransformColumnTypes(Sheet1_Sheet,{{"Column1", type any}}),
+    #"Removed Top Rows" = Table.Skip(#"Changed Type",1),
+    #"Removed Bottom Rows" = Table.RemoveLastN(#"Removed Top Rows",15),
+    #"Filtered Rows" = Table.SelectRows(#"Removed Bottom Rows", each ([Column1] <> null)),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Filtered Rows",{{"Column1", type text}}),
+    #"Filtered Rows3" = Table.SelectRows(#"Changed Type1", each ([Column1] <> "10/25/2017" and [Column1] <> "10/26/2017")),
+    #"Added Custom" = Table.AddColumn(#"Filtered Rows3", "Custom", each if Text.Contains([Column1], "2017-") then "Date" else null ),
+    AddIndex = Table.AddIndexColumn(#"Added Custom", "Index", 0, 1),
+    #"Added Custom1" = Table.AddColumn(AddIndex, "Custom.1", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+1} else null otherwise null),
+    #"Split Column by Delimiter" = Table.SplitColumn(#"Added Custom1", "Custom.1", Splitter.SplitTextByEachDelimiter({"–"}, QuoteStyle.Csv, false), {"Custom.1.1", "Custom.1.2"}),
+    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"Custom.1.1", type text}, {"Custom.1.2", type time}}),
+    #"Merged Columns" = Table.CombineColumns(Table.TransformColumnTypes(#"Changed Type2", {{"Custom.1.2", type text}}, "en-US"),{"Column1", "Custom.1.2"},Combiner.CombineTextByDelimiter("– ", QuoteStyle.None),"Merged"),
+    #"Removed Columns" = Table.RemoveColumns(#"Merged Columns",{"Custom.1.1"}),
+    #"Added Custom3" = Table.AddColumn(#"Removed Columns", "Custom.1", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]-1} else null otherwise null),
+    #"Added Custom4" = Table.AddColumn(#"Added Custom3", "Custom.2", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+2} else null otherwise null),
+    #"Added Custom5" = Table.AddColumn(#"Added Custom4", "Custom.3", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+3} else null otherwise null),
+    #"Added Custom6" = Table.AddColumn(#"Added Custom5", "Custom.4", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+4} else null otherwise null),
+    #"Added Custom7" = Table.AddColumn(#"Added Custom6", "Custom.5", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+5} else "wertyuiopaksjshdnsmkalasadhjkadhaksdh" otherwise null),
+    #"Added Custom8" = Table.AddColumn(#"Added Custom7", "Custom.6", each if Text.Length([Custom.5])<28 then [Custom.5] else null),
+    #"Removed Columns2" = Table.RemoveColumns(#"Added Custom8",{"Custom.5"}),
+    #"Added Custom9" = Table.AddColumn(#"Removed Columns2", "Custom.5", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+6} else "wertyuiopaksjshdnsmkalasadhjkadhaksdh" otherwise null),
+    #"Added Custom10" = Table.AddColumn(#"Added Custom9", "Custom.7", each if Text.Length([Custom.5])>28 or Text.Contains([Custom.5],"2017") then null else [Custom.5]),
+    #"Removed Columns3" = Table.RemoveColumns(#"Added Custom10",{"Custom.5"}),
+    #"Added Custom11" = Table.AddColumn(#"Removed Columns3", "Custom.5", each try if AddIndex[Custom]{[Index]}="Date" then AddIndex[Column1]{[Index]+7} else "wertyuiopaksjshdnsmkalasadhjkadhaksdh" otherwise null),
+    #"Added Custom12" = Table.AddColumn(#"Added Custom11", "Custom.8", each if Text.Length([Custom.5])>28 or Text.Contains([Custom.5],":") then null else [Custom.5]),
+    #"Removed Columns4" = Table.RemoveColumns(#"Added Custom12",{"Custom.5", "Custom", "Index"}),
+    #"Replaced Errors" = Table.ReplaceErrorValues(#"Removed Columns4", {{"Custom.6", null}}),
+    #"Replaced Errors1" = Table.ReplaceErrorValues(#"Replaced Errors", {{"Custom.7", null}}),
+    #"Replaced Errors2" = Table.ReplaceErrorValues(#"Replaced Errors1", {{"Custom.8", null}}),
+    #"Filtered Rows2" = Table.SelectRows(#"Replaced Errors2", each ([Custom.1] <> null)),
+    #"Renamed Columns" = Table.RenameColumns(#"Filtered Rows2",{{"Merged", "Date/Time"}, {"Custom.1", "Session Title"}, {"Custom.2", "Room"}, {"Custom.3", "Description"}, {"Custom.4", "Speaker1"}, {"Custom.6", "Speaker2"}, {"Custom.7", "Speaker3"}, {"Custom.8", "Speaker4"}}),
+    #"Added Custom13" = Table.AddColumn(#"Renamed Columns", "Speakers", each if [Speaker4]=null and [Speaker3]= null and [Speaker2]=null then [Speaker1] else 
+if [Speaker4]=null and [Speaker3]= null then [Speaker1]&", "&[Speaker2] else
+if [Speaker4]=null  then [Speaker1]&", "&[Speaker2]&", "&[Speaker3] else 
+[Speaker1]&", "&[Speaker2]&", "& [Speaker3]&", "&[Speaker4]),
+    #"Merged Queries" = Table.NestedJoin(#"Added Custom13",{"Speakers"},#"Ruth Images",{"Speakers"},"Added Custom13",JoinKind.LeftOuter),
+    #"Expanded Added Custom13" = Table.ExpandTableColumn(#"Merged Queries", "Added Custom13", {"Speaker1URL", "Speaker2URL", "Speaker3URL", "Speaker4URL"}, {"Speaker1URL", "Speaker2URL", "Speaker3URL", "Speaker4URL"})
+in
+    #"Expanded Added Custom13"
