@@ -11,8 +11,10 @@ There are two source files:
 And 8 participants. 
 Here I will add their contributions as I explain them on Youtube.
 
-CONTRIBUTION N1: Daniel Dion
+CONTRIBUTION Nr2: Daniel Dion
 
 1. [Video Explanation](https://www.youtube.com/watch?v=TxkkWyt-n9U)
 2. Solution files:
+
+CONTRIBUTION Nr2: Emin Uzun
 
