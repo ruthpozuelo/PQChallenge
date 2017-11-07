@@ -20,7 +20,12 @@ Ruth's contribution:
 CONTRIBUTION Nr2: Daniel Dion
 
 1. [Video Explanation](https://www.youtube.com/watch?v=TxkkWyt-n9U)
-2. Solution files: [Solution 1](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Daniel%20Dion.pq)
+2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Daniel%20Dion.pq)
 
-CONTRIBUTION Nr2: Emin Uzun
+CONTRIBUTION Nr3: Emin Uzun
+1. [Video Explanation](https://www.youtube.com/watch?v=dXtCg3TeUdM)
+2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Emin%20Uzun.pq)
 
+CONTRIBUTION Nr4: Morito Oto
+1. [Video Explanation](https://www.youtube.com/watch?v=nXVBJ943AU0)
+2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/tree/master/Solution%20files/Morito%20Oto)
