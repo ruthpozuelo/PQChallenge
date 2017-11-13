@@ -30,6 +30,6 @@ CONTRIBUTION Nr4: Morito Oto
 1. [Video Explanation](https://www.youtube.com/watch?v=nXVBJ943AU0)
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/tree/master/Solution%20files/Morito%20Oto)
 
-CONTRIBUTION Nr4: Morito Oto
+CONTRIBUTION Nr4: Maxim Zelensky
 1. [Video Explanation]()
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Curbal_PQ_Cahllenge_TDSWE_MaximZelensky.pq)
