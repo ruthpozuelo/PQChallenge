@@ -31,7 +31,7 @@ CONTRIBUTION Nr5: Morito Oto
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/tree/master/Solution%20files/Morito%20Oto)
 
 CONTRIBUTION Nr6: Maxim Zelensky
-1. [Video Explanation]()
+1. [Video Explanation](https://www.youtube.com/watch?v=K3nSNiYu_kI)
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Curbal_PQ_Cahllenge_TDSWE_MaximZelensky.pq)
 
 CONTRIBUTION N7: Collin Taylor
