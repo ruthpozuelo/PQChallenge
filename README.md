@@ -17,19 +17,23 @@ Ruth's contribution:
 2. Solution files: [Solution 1](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Ruth%20Images.pq)
 2. Solution files: [Solution 2](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Ruth%20Sessions.pq)
 
-CONTRIBUTION Nr2: Daniel Dion
+CONTRIBUTION Nr3: Daniel Dion
 
 1. [Video Explanation](https://www.youtube.com/watch?v=TxkkWyt-n9U)
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Daniel%20Dion.pq)
 
-CONTRIBUTION Nr3: Emin Uzun
+CONTRIBUTION Nr4: Emin Uzun
 1. [Video Explanation](https://www.youtube.com/watch?v=dXtCg3TeUdM)
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Emin%20Uzun.pq)
 
-CONTRIBUTION Nr4: Morito Oto
+CONTRIBUTION Nr5: Morito Oto
 1. [Video Explanation](https://www.youtube.com/watch?v=nXVBJ943AU0)
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/tree/master/Solution%20files/Morito%20Oto)
 
-CONTRIBUTION Nr5: Maxim Zelensky
+CONTRIBUTION Nr6: Maxim Zelensky
 1. [Video Explanation]()
 2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Curbal_PQ_Cahllenge_TDSWE_MaximZelensky.pq)
+
+CONTRIBUTION N7: Collin Taylor
+1. [Video Explanation]()
+2. Solution files: [Solution](https://github.com/ruthpozuelo/PQChallenge/blob/master/Solution%20files/Collin%20Taylor.pbix)
